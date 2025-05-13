@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Preferences & Animation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      transition: background-color 0.5s ease;
+    }
+
+    input[type="color"] {
+      padding: 5px;
+      margin-bottom: 20px;
+    }
+
+    #animateBox {
+      width: 100px;
+      height: 100px;
+      margin: 20px auto;
+      background-color: red;
+      border-radius: 10px;
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .animate {
+      animation: pulse 0.6s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 User Preferences & Animation</h1>
+
+  <!-- Color Picker -->
+  <input type="color" id="colorPicker">
+  <label for="colorPicker">Pick Background Color</label>
+
+  <!-- Animation Box -->
+  <div id="animateBox"></div>
+  <button onclick="animateBox()">Animate Me</button>
+
+  <script>
+    // ✅ Load saved background color from localStorage on page load
+    window.onload = function () {
+      const savedColor = localStorage.getItem("bgColor");
+      if (savedColor) {
+        document.body.style.backgroundColor = savedColor;
+        document.getElementById("colorPicker").value = savedColor;
+      }
+    };
+
+    // ✅ Set and store user preference
+    document.getElementById("colorPicker").addEventListener("input", function () {
+      const selectedColor = this.value;
+      document.body.style.backgroundColor = selectedColor;
+      localStorage.setItem("bgColor", selectedColor);
+    });
+
+    // ✅ Trigger animation on user action
+    function animateBox() {
+      const box = document.getElementById("animateBox");
+      box.classList.remove("animate"); // reset animation
+      void box.offsetWidth; // force reflow
+      box.classList.add("animate");
+    }
+  </script>
+
+</body>
+</html>
